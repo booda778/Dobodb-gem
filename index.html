@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أهلاً بي كبتن دبدوب</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://i.imgur.com/1FPLtGm.jpg'); /* صورة دب باندا عضلي */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            color: white;
+            text-align: center;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+        }
+        h1 {
+            font-size: 28px;
+            color: #FFD700;
+        }
+        input, select {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #FFD700;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #FFA500;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>أهلاً بي كبتن دبدوب 🐼</h1>
+        <p>أدخل طولك ووزنك لمعرفة السعرات الحرارية والنصائح المناسبة لهدفك</p>
+        <form id="calorieForm">
+            <input type="number" id="weight" placeholder="الوزن بالكيلوجرام" required>
+            <input type="number" id="height" placeholder="الطول بالسنتيمتر" required>
+            <input type="number" id="age" placeholder="العمر بالسنوات" required>
+            <select id="goal">
+                <option value="maintain">الحفاظ على الوزن</option>
+                <option value="gain">زيادة العضلات</option>
+                <option value="lose">فقدان الوزن</option>
+            </select>
+            <button type="button" onclick="calculateCalories()">احسب</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <div class="footer">
+        تم تصميم الموقع لصديقي كبتن دبدوب 🐼❤️
+    </div>
+
+    <script>
+        function calculateCalories() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseInt(document.getElementById('age').value);
+            const goal = document.getElementById('goal').value;
+
+            if (!weight || !height || !age) {
+                alert("من فضلك أدخل القيم الصحيحة");
+                return;
+            }
+
+            // حساب معدل الحرق الأساسي (BMR) باستخدام معادلة Mifflin-St Jeor
+            const bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5; // ذكر
+            let dailyCalories = bmr * 1.5; // النشاط اليومي المتوسط
+
+            let advice = "";
+            if (goal === "gain") {
+                dailyCalories += 500; // إضافة سعرات لزيادة العضلات
+                advice = "تناول وجبات غنية بالبروتين مثل الدجاج، البيض، والسمك. أضف الكربوهيدرات الصحية مثل الأرز البني والشوفان.";
+            } else if (goal === "lose") {
+                dailyCalories -= 500; // تقليل سعرات لخسارة الوزن
+                advice = "قلل من تناول السكريات والدهون المشبعة. ركز على الخضروات والبروتين قليل الدهون مثل صدور الدجاج.";
+            } else {
+                advice = "حافظ على التوازن في تناول البروتين، الكربوهيدرات، والدهون الصحية. تناول وجباتك بانتظام.";
+            }
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <p>السعرات اليومية المطلوبة: <strong>${dailyCalories.toFixed(2)}</strong> سعر حراري</p>
+                <p>هدفك هو: <strong>${goal === "gain" ? "زيادة العضلات" : goal === "lose" ? "فقدان الوزن" : "الحفاظ على الوزن"}</strong></p>
+                <p><strong>نصيحة:</strong> ${advice}</p>
+            `;
+        }
+    </script>
+</body>
+</html>
